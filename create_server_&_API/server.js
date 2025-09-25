@@ -22,7 +22,6 @@ app.post("/users", (req, res) => {
   });
 });
 
-
 app.listen(3000,()=>{
     console.log("runnig on port 3000");
     
