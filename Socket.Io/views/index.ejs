@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Hello <%=id%>
+    </h1>
+    <input type="text">
+    <button>send</button>
+    <button id="join-room">join-room</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let senderId = `<%=id%>`;
+        console.log(senderId);
+
+
+
+
+        const btn = document.querySelector("button");
+        const joinBtn = document.querySelector("#join-room");
+
+        joinBtn.addEventListener("click", () => {
+            let obj = {
+                roomId: "mera_tera",
+                senderId
+            }
+
+            socket.emit("join-room", obj);
+        })
+
+        socket.on("join-room", (msg) => {
+            console.log(msg);
+
+        })
+
+        socket.on("room-created", (msg) => {
+            console.log(msg);
+        })
+
+        socket.on("joined-room", (msg) => {
+            console.log(msg);
+            socket.emit("joined-room", "hn kar liya")
+        })
+
+        btn.addEventListener("click", () => {
+            let msg = document.querySelector("input").value;
+            socket.emit("chat", msg);
+        })
+
+        socket.on("chat", (msg) => {
+            console.log(msg);
+        })
+
+    </script>
+</body>
+
+</html>
